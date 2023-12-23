@@ -8,5 +8,5 @@ Website that allows user to track anything they would like by creating &amp; cli
 □ Profile creation implementing Google/FB/Apple account creation  
 □ Add Profile and Trackers to a Database
 
-**BUG**
+**BUG** <br>
 □ The second row the increase button is to the right of the count
