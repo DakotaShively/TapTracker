@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title class="title">TapTracker</title>
+		<h1 class="title">Tap Tracker</h1>
+
+		<link rel="stylesheet" href="stylesheet.css" />
+		<style>
+			.title {
+				font-size: 100px;
+			}
+			.header {
+				max-width: 1200px;
+				margin: auto;
+				display: flex;
+				flex-wrap: wrap; /* Allow items to wrap onto the next line */
+				justify-content: space-evenly;
+			}
+			.content {
+				max-width: 1200px;
+				margin: auto;
+				display: flex;
+				flex-wrap: wrap; /* Allow items to wrap onto the next line */
+				justify-content: space-evenly;
+				padding: 5px;
+			}
+			.shortcut-icon {
+				width: 300px;
+				height: 300px;
+				background-color: transparent;
+				border: none;
+				outline: none;
+				cursor: pointer;
+			}
+			.add-button {
+				border-radius: 10px;
+				background: linear-gradient(#ff8e73, #ff7c5c);
+				font-size: large;
+			}
+			.shortcut-icon button {
+				width: 225px;
+				height: 140px;
+				background-color: transparent;
+				border: none;
+				outline: none;
+				cursor: pointer;
+				justify-content: center;
+			}
+			.shortcut-icon button:hover {
+				background-color: #ffffff26;
+				color: aliceblue;
+				border-radius: calc(var(--icon-size) / 6);
+			}
+			.decrease-button {
+				text-align: center;
+				margin-top: 0%; /* Push the button to the bottom */
+				background-color: #ff0000; /* Red background color */
+				color: #ffffffe8; /* White text color */
+				border: none;
+				padding: 0px;
+				cursor: pointer;
+				height: 50px;
+			}
+			.decrease-button:hover {
+				background-color: #990000; /* Darker red on hover */
+				border-radius: calc(var(--icon-size) / 6);
+				/* shadow imitates the appearance of iCloud link icons */
+				box-shadow: 0 calc(var(--icon-size) / 64) calc(var(--icon-size) / 32) 0
+					rgba(0, 0, 0, 0.14);
+				box-sizing: border-box;
+				margin-top: 0%;
+				height: 100px;
+			}
+		</style>
+	</head>
+	<!-- Creation button -->
+	<div class="header">
+		<button class="add-button" onclick="createTracker()">
+			<h3>Add Tracker</h3>
+		</button>
+	</div>
+	<body>
+		<div class="content">
+			<script>
+				// JavaScript code to handle button click and update count
+				const trackerCounts = {}; // Object to store counts for each tracker
+
+				// Array of available styles
+				const availableIcons = [
+					"icon-1",
+					"icon-2",
+					"icon-3",
+					"icon-4",
+					"icon-5",
+				];
+
+				function getRandomIcon() {
+					// Randomly select a style from the availableStyles array
+					const randomIndex = Math.floor(Math.random() * availableIcons.length);
+					return availableIcons[randomIndex];
+				}
+
+				function updateCount(trackerId, increase) {
+					if (!trackerCounts[trackerId]) {
+						trackerCounts[trackerId] = 0;
+					}
+
+					const countSpan = document.getElementById(`count${trackerId}`);
+					trackerCounts[trackerId] += increase ? 1 : -1;
+					countSpan.innerText = trackerCounts[trackerId];
+				}
+
+				function createTracker() {
+					// Prompt the user for input
+					const trackerName = window.prompt("Enter the tracker name:");
+
+					if (trackerName) {
+						// Create a unique ID for the new tracker
+						const trackerId = new Date().getTime();
+
+						// Create a new button div
+						const newButtonDiv = document.createElement("div");
+						// Apply a random icon style to the new div
+						const randomIcon = getRandomIcon();
+						newButtonDiv.classList.add("shortcut-icon", randomIcon);
+
+						// Create the button inside the div
+						const newButton = document.createElement("button");
+						newButton.onclick = function () {
+							updateCount(trackerId, true); // Increase count on left-click
+						};
+						// Add content to the new button using the user input
+						newButton.innerHTML = `
+                    <h2>${trackerName}</h2>
+                    <p>Click to increase</p>
+                    <h1 id="countDisplay${trackerId}">Count: <span id="count${trackerId}">0</span></h1>
+                `;
+						// Append the button to the new div
+						newButtonDiv.appendChild(newButton);
+
+						// Create the decrease button inside the div
+						const decreaseButton = document.createElement("button");
+						decreaseButton.onclick = function (event) {
+							event.stopPropagation(); // Prevent the click from propagating to the parent button
+							updateCount(trackerId, false); // Decrease count on click
+						};
+						decreaseButton.innerText = "Decrease";
+						decreaseButton.classList.add("decrease-button"); // Applying the styling class
+						newButtonDiv.appendChild(decreaseButton);
+
+						// Append the new div to the content area
+						document.querySelector(".content").appendChild(newButtonDiv);
+					}
+				}
+			</script>
+		</div>
+	</body>
+</html>

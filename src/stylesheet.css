@@ -1,0 +1,159 @@
+/* Suggested sizes (256x256 by default) */
+body {
+	background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+	background-size: 400% 400%;
+	animation: gradient 100s ease infinite;
+	height: 100vh;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+h1 {
+	text-align: center;
+	font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+		Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+h2 {
+	font-size: xx-large;
+}
+
+.s43 {
+	--icon-size: 43px;
+}
+.s64 {
+	--icon-size: 64px;
+}
+.s86 {
+	--icon-size: 86px;
+}
+.s128 {
+	--icon-size: 128px;
+}
+:root {
+	--icon-size: 256px;
+}
+
+/* Common CSS for all icons */
+
+.shortcut-icon {
+	/* SVG partial icon grid and gray background color, visible only if no color class is used */
+	background-color: #7f7f7f7f;
+	background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" stroke="white" fill="none" stroke-width="0.5"><line x1="0%" y1="0%" x2="19.2%" y2="19.2%"/><line x1="80.8%" y1="80.8%" x2="100%" y2="100%"/><line x1="0%" y1="100%" x2="19.2%" y2="80.8%"/><line x1="80.8%" y1="19.2%" x2="100%" y2="0%"/><line x1="0%" y1="6%" x2="100%" y2="6%"/><line x1="0%" y1="31.5%" x2="15%" y2="31.5%"/><line x1="85%" y1="31.5%" x2="100%" y2="31.5%"/><line x1="0%" y1="50%" x2="15%" y2="50%"/><line x1="85%" y1="50%" x2="100%" y2="50%"/><line x1="0%" y1="68.5%" x2="15%" y2="68.5%"/><line x1="85%" y1="68.5%" x2="100%" y2="68.5%"/><line x1="0%" y1="94%" x2="100%" y2="94%"/><line x1="6%" y1="0%" x2="6%" y2="100%"/><line x1="31.5%" y1="0%" x2="31.5%" y2="15%"/><line x1="31.5%" y1="85%" x2="31.5%" y2="100%"/><line x1="50%" y1="0%" x2="50%" y2="15%"/><line x1="50%" y1="85%" x2="50%" y2="100%"/><line x1="68.5%" y1="0%" x2="68.5%" y2="15%"/><line x1="68.5%" y1="85%" x2="68.5%" y2="100%"/><line x1="94%" y1="0%" x2="94%" y2="100%"/><circle cx="50%" cy="50%" r="44%"/></svg>');
+	/* iCloud link icons show a radius/size ratio of 1/6, although the closest ratio of iOS app icons is 2/9 */
+	border-radius: calc(var(--icon-size) / 6);
+	/* shadow imitates the appearance of iCloud link icons */
+	box-shadow: 0 calc(var(--icon-size) / 64) calc(var(--icon-size) / 32) 0
+		rgba(0, 0, 0, 0.14);
+	box-sizing: border-box;
+	display: inline-block;
+	height: var(--icon-size);
+	/* padding equivalent to 38/256, leaving 180/256 for the content */
+	padding: calc(var(--icon-size) / 6.7368421);
+	width: var(--icon-size);
+}
+
+.shortcut-icon::after {
+	/* iOS 16 glyphs used by default (no .ios16 class necessary) */
+	background-image: url(ios16-glyphs.png);
+	/* PNG partial icon grid is in the top left corner of the glyph, visible only if no glyph class is used */
+	background-position: top left;
+	/* glyphs are arranged in a 20x19 matrix */
+	background-size: 2000% 1900%;
+	content: "";
+	/* height equivalent to 180/256 */
+	height: calc(var(--icon-size) * 0.703125);
+	position: absolute;
+	/* width equivalent to 180/256 */
+	width: calc(var(--icon-size) * 0.703125);
+}
+
+/* Alternate glyph sets */
+
+.ios15.shortcut-icon::after {
+	background-image: url(ios15-glyphs.png);
+}
+
+.ios14.shortcut-icon::after {
+	background-image: url(ios14-glyphs.png);
+}
+
+.ios13.shortcut-icon::after {
+	background-image: url(ios13-glyphs.png);
+}
+
+.ios12.shortcut-icon::after {
+	background-image: url(ios12-glyphs.png);
+}
+
+/* Shortcut icon colors (both positive and negative values, iOS 14-16 palette used by default) */
+
+.c4282601983,
+.icon-1 {
+	background: linear-gradient(#f36f74, #f2585e);
+}
+.c4251333119,
+.c-43634177 {
+	background: linear-gradient(#ff8e73, #ff7c5c);
+}
+.c4271458815,
+.c-23508481 {
+	background: linear-gradient(#f8ae5f, #f7a145);
+}
+.c4274264319,
+.icon-4 {
+	background: linear-gradient(#e8ca45, #e5c238);
+}
+.c4292093695,
+.c-2873601 {
+	background: linear-gradient(#53cd6b, #37c553);
+}
+.c431817727,
+.c-3863149569 {
+	background: linear-gradient(#57cfb4, #2ac7a8);
+}
+.c1440408063,
+.icon-2 {
+	background: linear-gradient(#5accde, #3fc4d9);
+}
+.c463140863,
+.c-3831826433 {
+	background: linear-gradient(#24baf7, #00aff6);
+}
+.c946986751,
+.icon-5 {
+	background: linear-gradient(#5874ca, #3d5ec2);
+}
+.c2071128575,
+.c-2223838721 {
+	background: linear-gradient(#9164c7, #7f4bbe);
+}
+.c3679049983,
+.c-615917313 {
+	background: linear-gradient(#c085e6, #b671e2);
+}
+.c3980825855,
+.icon-3 {
+	background: linear-gradient(#f694d8, #f583d2);
+}
+.c255,
+.c-4294967041 {
+	background: linear-gradient(#9099a3, #7e8994);
+}
+.c3031607807,
+.c-1263359489 {
+	background: linear-gradient(#9da79d, #8d998e);
+}
+.c2846468607,
+.c-1448498689 {
+	background: linear-gradient(#a49995, #968984);
+}
