@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Tracker = require("./models/tracker");
 const { MongoClient, ServerApiVersion } = require("mongodb");
 const express = require("express");
+const User = require("./models/user");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -24,12 +25,30 @@ async function connect() {
 
 app.use(express.json());
 
-// Create a new tracker
-app.post("/api/trackers", async (req, res) => {
-	const { id, name, count } = req.body;
+// Create a new user
+app.post("/api/users", async (req, res) => {
+	const { username } = req.body;
 
 	try {
+		const newUser = await User.create({ username });
+		res.status(201).json(newUser);
+	} catch (error) {
+		res.status(500).json({ error: error.message });
+	}
+});
+// Create a new tracker
+app.post("/api/users/:userId/trackers", async (req, res) => {
+	const { userId } = req.params;
+	const { name } = req.body;
+
+	try {
+		const user = await User.findById(userId);
 		const newTracker = await Tracker.create({ name });
+
+		//Associate the new tracker with the user
+		user.trackers.push(newTracker._id);
+		await user.save();
+
 		res.status(201).json(newTracker);
 		// await newTracker.save();
 	} catch (error) {
@@ -43,10 +62,11 @@ app.post("/api/trackers", async (req, res) => {
 // });
 
 // Get all Trackers
-app.get("/api/trackers", async (req, res) => {
+app.get("/api/users/:userId/trackers", async (req, res) => {
+	const { userId } = req.params;
 	try {
-		const trackers = await Tracker.find();
-		res.json(trackers);
+		const trackers = await User.findById(userId).populate("trackers");
+		res.json(user.trackers);
 	} catch (error) {
 		res.status(500).json({ error: error.message });
 	}

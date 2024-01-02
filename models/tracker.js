@@ -10,4 +10,4 @@ const trackerSchema = new mongoose.Schema({
 
 const Tracker = mongoose.model("Tracker", trackerSchema);
 
-module.exports = mongoose.model("Tracker", trackerSchema);
+module.exports = Tracker;
