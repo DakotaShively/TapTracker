@@ -86,7 +86,6 @@
 			<script>
 				// JavaScript code to handle button click and update count
 				const trackerCounts = {}; // Object to store counts for each tracker
-
 				// Array of available styles
 				const availableIcons = [
 					"icon-1",
@@ -95,37 +94,30 @@
 					"icon-4",
 					"icon-5",
 				];
-
 				function getRandomIcon() {
 					// Randomly select a style from the availableStyles array
 					const randomIndex = Math.floor(Math.random() * availableIcons.length);
 					return availableIcons[randomIndex];
 				}
-
 				function updateCount(trackerId, increase) {
 					if (!trackerCounts[trackerId]) {
 						trackerCounts[trackerId] = 0;
 					}
-
 					const countSpan = document.getElementById(`count${trackerId}`);
 					trackerCounts[trackerId] += increase ? 1 : -1;
 					countSpan.innerText = trackerCounts[trackerId];
 				}
-
 				function createTracker() {
 					// Prompt the user for input
 					const trackerName = window.prompt("Enter the tracker name:");
-
 					if (trackerName) {
 						// Create a unique ID for the new tracker
 						const trackerId = new Date().getTime();
-
 						// Create a new button div
 						const newButtonDiv = document.createElement("div");
 						// Apply a random icon style to the new div
 						const randomIcon = getRandomIcon();
 						newButtonDiv.classList.add("shortcut-icon", randomIcon);
-
 						// Create the button inside the div
 						const newButton = document.createElement("button");
 						newButton.onclick = function () {
@@ -139,7 +131,6 @@
                 `;
 						// Append the button to the new div
 						newButtonDiv.appendChild(newButton);
-
 						// Create the decrease button inside the div
 						const decreaseButton = document.createElement("button");
 						decreaseButton.onclick = function (event) {
@@ -149,11 +140,38 @@
 						decreaseButton.innerText = "Decrease";
 						decreaseButton.classList.add("decrease-button"); // Applying the styling class
 						newButtonDiv.appendChild(decreaseButton);
-
 						// Append the new div to the content area
 						document.querySelector(".content").appendChild(newButtonDiv);
+						// After creating a new tracker, also fetch and update the list
+						fetchTrackers();
 					}
 				}
+			</script>
+			<script>
+				async function fetchTrackers() {
+					try {
+						const response = await fetch("api/trackers");
+						const data = await response.json();
+						const trackersList = document.getElementById("trackers-list");
+						trackersList.innerHTML = data
+							.map(
+								(tracker) => `
+						<div>
+							<h3>${tracker.name}</h3>
+							<p>Count: ${tracker.count}</p>
+							</div>
+							`
+							)
+							.join("");
+					} catch (error) {
+						console.error("Error fetching trackers:", error);
+					}
+				}
+				// Fetch trackers when the page loads
+				window.onload = function () {
+					// Call fetchTrackers to initially load trackers
+					fetchTrackers();
+				};
 			</script>
 		</div>
 	</body>
