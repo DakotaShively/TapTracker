@@ -144,6 +144,34 @@
 						document.querySelector(".content").appendChild(newButtonDiv);
 						// After creating a new tracker, also fetch and update the list
 						fetchTrackers();
+
+						//Send the DATA TO THE BACKEND
+						saveTrackerToDatabase(trackerId, trackerName);
+
+						//NEW ASYNC FUNCTION. IF WORKS DELETE fetchTRACKERS()
+						async function saveTrackerToDatabase(trackerId, trackerName) {
+							try {
+								const response = await fetch("/api/trackers", {
+									method: "POST",
+									headers: {
+										"Content-Type": "application/json",
+									},
+									body: JSON.stringify({
+										id: trackerId,
+										name: trackerName,
+										count: 0, // Initialize count to 0
+									}),
+								});
+
+								if (!response.ok) {
+									throw new Error(
+										`Failed to save tracker: ${response.statusText}`
+									);
+								}
+							} catch (error) {
+								console.error("Error saving tracker:", error);
+							}
+						}
 					}
 				}
 			</script>

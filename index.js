@@ -36,11 +36,30 @@ app.put("/api/trackers/:id", async (req, res) => {
 	}
 });
 
+// // Create a simple route
+// app.get("/", (req, res) => {
+// 	res.send("Hello, this is your Express backend!");
+// });
+
 app.use(express.json());
 
-// Create a simple route
-app.get("/", (req, res) => {
-	res.send("Hello, this is your Express backend!");
+// Create a new tracker
+app.post("/api/trackers", async (req, res) => {
+	const { id, name, count } = req.body;
+
+	try {
+		const newTracker = new Tracker({
+			_id: id,
+			name,
+			count,
+		});
+
+		await newTracker.save();
+
+		res.status(201).json(newTracker);
+	} catch (error) {
+		res.status(500).json({ error: error.message });
+	}
 });
 
 // Start the server
