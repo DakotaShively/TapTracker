@@ -107,7 +107,7 @@
 					trackerCounts[trackerId] += increase ? 1 : -1;
 					countSpan.innerText = trackerCounts[trackerId];
 				}
-				function createTracker() {
+				async function createTracker() {
 					// Prompt the user for input
 					const trackerName = window.prompt("Enter the tracker name:");
 					if (trackerName) {

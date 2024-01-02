@@ -1,16 +1,46 @@
 const mongoose = require("mongoose");
 const Tracker = require("./models/tracker");
-// const express = require("./models/tracker");
+const { MongoClient, ServerApiVersion } = require("mongodb");
 const express = require("express");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const uri =
+	"mongodb+srv://dakota:babrEb-2kuvju@cluster0.ehy3slc.mongodb.net/?retryWrites=true&w=majority";
 
 // Connect to MongoDB
-mongoose.connect("mongodb://localhost:27017/TapTracker", {
-	useNewUrlParser: true,
-	useUnifiedTopology: true,
+async function connect() {
+	try {
+		await mongoose.connect(uri);
+		console.log("Finalled connected thanks to youtube");
+	} catch (error) {
+		console.log(error);
+	}
+}
+// mongoose.connect(uri, {
+// 	useNewUrlParser: true,
+// 	useUnifiedTopology: true,
+// });
+
+app.use(express.json());
+
+// Create a new tracker
+app.post("/api/trackers", async (req, res) => {
+	const { id, name, count } = req.body;
+
+	try {
+		const newTracker = await Tracker.create({ name });
+		res.status(201).json(newTracker);
+		// await newTracker.save();
+	} catch (error) {
+		res.status(500).json({ error: error.message });
+	}
 });
+
+// // Create a simple route
+// app.get("/", (req, res) => {
+// 	res.send("Hello, this is your Express backend!");
+// });
 
 // Get all Trackers
 app.get("/api/trackers", async (req, res) => {
@@ -23,7 +53,7 @@ app.get("/api/trackers", async (req, res) => {
 });
 
 // Update count for a tracker
-app.put("/api/trackers/:id", async (req, res) => {
+app.put("/api/trackers", async (req, res) => {
 	const { id } = req.params;
 
 	try {
@@ -31,32 +61,6 @@ app.put("/api/trackers/:id", async (req, res) => {
 		tracker.count += 1;
 		await tracker.save();
 		res.json(tracker);
-	} catch (error) {
-		res.status(500).json({ error: error.message });
-	}
-});
-
-// // Create a simple route
-// app.get("/", (req, res) => {
-// 	res.send("Hello, this is your Express backend!");
-// });
-
-app.use(express.json());
-
-// Create a new tracker
-app.post("/api/trackers", async (req, res) => {
-	const { id, name, count } = req.body;
-
-	try {
-		const newTracker = new Tracker({
-			_id: id,
-			name,
-			count,
-		});
-
-		await newTracker.save();
-
-		res.status(201).json(newTracker);
 	} catch (error) {
 		res.status(500).json({ error: error.message });
 	}
